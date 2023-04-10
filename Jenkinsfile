@@ -8,7 +8,6 @@ pipeline {
   }
 
   environment{
-    REGISTRY = credentials('registry-server')
     IMAGE = "serviio"
     TAG = "latest"
     FULLIMAGE = "${env.IMAGE}:${env.TAG}"
@@ -42,13 +41,13 @@ pipeline {
 
     stage('Building image') {
       steps {
-        sh 'podman build --pull -t $REGISTRY/$FULLIMAGE .'
+        sh 'podman build --pull -t $LOCAL_REGISTRY/$FULLIMAGE .'
       }
     }
 
     stage('Pushing image') {
       steps {
-        sh 'podman push $REGISTRY/$FULLIMAGE'
+        sh 'podman push $LOCAL_REGISTRY/$FULLIMAGE'
       }
     }
   }
