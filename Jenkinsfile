@@ -24,7 +24,7 @@ pipeline {
 
         stage('Print environments variables') {
           steps {
-            sh 'printenv'
+            sh 'printenv | sort'
           }
         }
 
