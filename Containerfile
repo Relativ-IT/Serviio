@@ -1,6 +1,6 @@
 FROM docker.io/eclipse-temurin:20-jre-alpine
 
-ARG Serviio_Version=2.3
+ARG Serviio_Version
 
 ENV USER=serviio
 ENV UID=1001

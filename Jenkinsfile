@@ -9,8 +9,12 @@ pipeline {
 
   environment{
     IMAGE = "serviio"
-    TAG = "latest"
-    FULLIMAGE = "${env.IMAGE}:${env.TAG}"
+    SERVIIO_VERSION="2.3"
+
+    IMAGE_TAG = "${env.IMAGE}:${env.SERVIIO_VERSION}"
+    IMAGE_LATEST = "${env.IMAGE}:latest"
+    LOCAL_REGISTRY_IMAGE_TAG_NAME = "${env.LOCAL_REGISTRY}/${env.IMAGE_TAG}"
+    LOCAL_REGISTRY_IMAGE_LATEST_NAME = "${env.LOCAL_REGISTRY}/${env.IMAGE_LATEST}"
   }
 
   stages {
@@ -41,13 +45,26 @@ pipeline {
 
     stage('Building image') {
       steps {
-        sh 'podman build --pull -t $LOCAL_REGISTRY/$FULLIMAGE .'
+        sh '''
+          podman build --pull --build-arg Serviio_Version=$SERVIIO_VERSION -t $LOCAL_REGISTRY_IMAGE_TAG_NAME .
+          podman tag $LOCAL_REGISTRY_IMAGE_TAG_NAME $LOCAL_REGISTRY_IMAGE_LATEST_NAME
+        '''
       }
     }
 
-    stage('Pushing image') {
-      steps {
-        sh 'podman push $LOCAL_REGISTRY/$FULLIMAGE'
+    stage('Pushing images') {
+      parallel{
+        stage("Push Tagged immage to local registry"){
+          steps {
+            sh 'podman push $LOCAL_REGISTRY_IMAGE_TAG_NAME'
+          }
+        }
+
+        stage("Push latest image to local registry"){
+          steps {
+            sh 'podman push $LOCAL_REGISTRY_IMAGE_LATEST_NAME'
+          }
+        }
       }
     }
   }
