@@ -1,4 +1,4 @@
-FROM docker.io/eclipse-temurin:19-jre-alpine
+FROM docker.io/eclipse-temurin:20-jre-alpine
 
 ARG Serviio_Version=2.3
 
