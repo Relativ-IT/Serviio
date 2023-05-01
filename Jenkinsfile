@@ -54,7 +54,7 @@ pipeline {
 
     stage('Pushing images') {
       parallel{
-        stage("Push Tagged immage to local registry"){
+        stage("Push Tagged image to local registry"){
           steps {
             sh 'podman push $LOCAL_REGISTRY_IMAGE_TAG_NAME'
           }
