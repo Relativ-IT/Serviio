@@ -20,7 +20,7 @@ pipeline {
   stages {
     stage('Initialize') {
       parallel {
-        stage('Advertising start of build'){
+        stage('Advertising start of build') {
           steps{
             slackSend color: "#4675b1", message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} started :fire: (<${env.RUN_DISPLAY_URL}|Open>)"
           }
@@ -54,13 +54,13 @@ pipeline {
 
     stage('Pushing images') {
       parallel{
-        stage("Push Tagged image to local registry"){
+        stage("Push Tagged image to local registry") {
           steps {
             sh 'podman push $LOCAL_REGISTRY_IMAGE_TAG_NAME'
           }
         }
 
-        stage("Push latest image to local registry"){
+        stage("Push latest image to local registry") {
           steps {
             sh 'podman push $LOCAL_REGISTRY_IMAGE_LATEST_NAME'
           }
