@@ -1,4 +1,4 @@
-FROM docker.io/eclipse-temurin:20-jre-alpine
+FROM docker.io/eclipse-temurin:8-jre-alpine
 
 ARG Serviio_Version
 
