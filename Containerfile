@@ -24,7 +24,7 @@ RUN adduser \
 RUN apk update && apk add curl
 
 RUN mkdir -v serviio \
-    && curl -o serviio.tar.gz https://download.serviio.org/releases/serviio-${Serviio_Version}-linux.tar.gz \
+    && curl --no-progress-meter -o serviio.tar.gz https://download.serviio.org/releases/serviio-${Serviio_Version}-linux.tar.gz \
     && tar -xzvf serviio.tar.gz -C serviio --strip-components=1 \
     && rm serviio.tar.gz \
     && chown -Rv "$USER":"$USER" serviio
