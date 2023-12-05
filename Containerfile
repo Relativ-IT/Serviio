@@ -30,7 +30,7 @@ RUN mkdir -v serviio \
     && chown -Rv "$USER":"$USER" serviio
 
 RUN mkdir -v ffmpeg \
-    && curl -O https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz \
+    && curl --no-progress-meter -O https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz \
     && tar xvf ffmpeg-release-amd64-static.tar.xz -C ffmpeg --strip-components=1 \
     && cp ffmpeg/ffmpeg /bin \
     && rm ffmpeg-release-amd64-static.tar.xz \
