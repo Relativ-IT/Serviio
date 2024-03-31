@@ -47,7 +47,7 @@ pipeline {
       steps {
         sh '''
           podman build \
-            --network slirp4netns
+            --network slirp4netns \
             --pull \
             --build-arg Serviio_Version=$SERVIIO_VERSION \
             -t $LOCAL_REGISTRY_IMAGE_TAG_NAME \
