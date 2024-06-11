@@ -9,7 +9,7 @@ pipeline {
 
   environment{
     IMAGE = "serviio"
-    SERVIIO_VERSION="2.3"
+    SERVIIO_VERSION="2.4"
 
     IMAGE_TAG = "${env.IMAGE}:${env.SERVIIO_VERSION}"
     IMAGE_LATEST = "${env.IMAGE}:latest"
