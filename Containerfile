@@ -11,8 +11,8 @@ ENV LANG=fr_FR.UTF-8
 
 WORKDIR ${DIR}
 
-RUN addgroup --gid "$GID" "$USER"
-RUN adduser \
+RUN addgroup --gid "$GID" "$USER" && \
+    adduser \
     --disabled-password \
     --gecos "" \
     --home "/opt/serviio" \
@@ -21,9 +21,8 @@ RUN adduser \
     --uid "$UID" \
     "$USER"
 
-RUN apk update && apk add curl
-
-RUN mkdir -v serviio \
+RUN apk update && apk add curl && \
+    mkdir -v serviio \
     && curl --no-progress-meter -o serviio.tar.gz https://download.serviio.org/releases/serviio-${Serviio_Version}-linux.tar.gz \
     && tar -xzvf serviio.tar.gz -C serviio --strip-components=1 \
     && rm serviio.tar.gz \
