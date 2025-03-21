@@ -4,7 +4,7 @@ pipeline {
   }
 
   agent {
-    label 'Linux && Podman'
+    label 'Linux && buildah'
   }
 
   environment{
@@ -32,11 +32,11 @@ pipeline {
           }
         }
 
-        stage('Print Podman infos') {
+        stage('Print Buildah infos') {
           steps {
             sh '''
-              podman version
-              podman system info
+              buildah version
+              buildah info
             '''
           }
         }
@@ -46,13 +46,12 @@ pipeline {
     stage('Building image') {
       steps {
         sh '''
-          podman build \
-            --network slirp4netns \
+          buildah build \
             --pull \
             --build-arg Serviio_Version=$SERVIIO_VERSION \
             -t $LOCAL_REGISTRY_IMAGE_TAG_NAME \
             .
-          podman tag $LOCAL_REGISTRY_IMAGE_TAG_NAME $LOCAL_REGISTRY_IMAGE_LATEST_NAME
+          buildah tag $LOCAL_REGISTRY_IMAGE_TAG_NAME $LOCAL_REGISTRY_IMAGE_LATEST_NAME
         '''
       }
     }
@@ -61,13 +60,13 @@ pipeline {
       parallel{
         stage("Push Tagged image to local registry") {
           steps {
-            sh 'podman push $LOCAL_REGISTRY_IMAGE_TAG_NAME'
+            sh 'buildah push $LOCAL_REGISTRY_IMAGE_TAG_NAME'
           }
         }
 
         stage("Push latest image to local registry") {
           steps {
-            sh 'podman push $LOCAL_REGISTRY_IMAGE_LATEST_NAME'
+            sh 'buildah push $LOCAL_REGISTRY_IMAGE_LATEST_NAME'
           }
         }
       }
