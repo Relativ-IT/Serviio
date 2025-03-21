@@ -4,7 +4,7 @@ pipeline {
   }
 
   agent {
-    label 'Linux && buildah'
+    label 'Linux && Buildah'
   }
 
   environment{
