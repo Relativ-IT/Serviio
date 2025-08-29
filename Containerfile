@@ -21,19 +21,12 @@ RUN addgroup --gid "$GID" "$USER" && \
     --uid "$UID" \
     "$USER"
 
-RUN apk update && apk add curl && \
+RUN apk update && apk add curl ffmpeg && \
     mkdir -v serviio \
     && curl --no-progress-meter -o serviio.tar.gz https://download.serviio.org/releases/serviio-${Serviio_Version}-linux.tar.gz \
     && tar -xzvf serviio.tar.gz -C serviio --strip-components=1 \
     && rm serviio.tar.gz \
     && chown -Rv "$USER":"$USER" serviio
-
-RUN mkdir -v ffmpeg \
-    && curl --no-progress-meter -O https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz \
-    && tar xvf ffmpeg-release-amd64-static.tar.xz -C ffmpeg --strip-components=1 \
-    && cp ffmpeg/ffmpeg /bin \
-    && rm ffmpeg-release-amd64-static.tar.xz \
-    && rm -r ffmpeg
 
 EXPOSE 1900 8895 23423 23424
 
